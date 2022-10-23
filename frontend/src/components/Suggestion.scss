@@ -1,0 +1,23 @@
+.suggestion {
+    display: grid;
+    grid-template-columns: 32px 2fr 1fr;
+    align-items: center;
+    margin-bottom: 0.5em;
+
+
+    .avatar {
+        justify-content: center;
+    }
+
+    .username {
+
+    }
+
+    .action {
+        justify-content: right;
+
+    }
+
+
+}
+
