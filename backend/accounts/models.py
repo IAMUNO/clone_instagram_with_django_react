@@ -21,7 +21,6 @@ class User(AbstractUser):
     phone_number = models.CharField(
         max_length=13,
         blank=True,
-        unique=True,
         validators=[phone_number_Regex],
     )
     gender = models.CharField(max_length=1, blank=True, choices=GenderChoices.choices)
