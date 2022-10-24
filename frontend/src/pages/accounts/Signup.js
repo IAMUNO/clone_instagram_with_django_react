@@ -1,71 +1,110 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Alert } from "antd";
+import { Form, Input, Button, notification } from "antd";
+import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import Axios from "axios";
 
 export default function Signup() {
-
     let navigate = useNavigate();
+    const [fieldErrors, setFieldErrors] = useState({});
 
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 },
+    };
 
-    const [inputs, setInputs] = useState({ username: "", password: ""});
-    const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [formDisabled, setFormDisabled] = useState(true);
+    const tailLayout = {
+        wrapperCol: { offset:8, span: 16 },
+    };
 
-    // event
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onFinish = values => {
+        async function fn() {
+            const { username, password } = values;
 
-        setLoading(true);
+            setFieldErrors({});
 
-        setErrors({});
+            const data = { username, password };
 
-        Axios.post("http://localhost:8000/accounts/signup/", inputs)
-            .then(response => {
-                navigate("/accounts/login")
-            })
-            .catch(error => {
-                console.log("error: ", error);
+            try {
+                await Axios.post("http://localhost:8000/accounts/signup/", data);
+
+                notification.open({
+                    message : "Signup successfully",
+                    description : "Moving to Login page",
+                    icon: <SmileOutlined style={{ color: "#108ee9" }} />,
+                });
+
+                navigate("/accounts/login");
+            }
+            catch(error) {
                 if ( error.response ) {
-                    setErrors({
-                        username: (error.response.data.username || []).join(" "),
-                        password: (error.response.data.password || []).join(" "),
+
+                    notification.open({
+                        message : "Signup failed",
+                        description : "Check your ID/Password and try again",
+                        icon: <FrownOutlined style={{ color: "#ff3333" }} />,
                     });
+
+                    const { data: fieldsErrorMessages } = error.response;
+                    setFieldErrors(
+                        Object.entries(fieldsErrorMessages).reduce(
+                            (acc, [fieldName, errors]) => {
+                                acc[fieldName] = {
+                                    validateStatus: "error",
+                                    help: errors.join(" "),
+                                };
+                                return acc;
+                            }, {}
+                        )
+                    );
                 }
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            }
+        }
+        fn();
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
     };
 
-    useEffect(() => {
-        const isEnabled = Object.values(inputs).every(s => s.length >0);
-        setFormDisabled(!isEnabled);
-    }, [inputs]);
-
-    const onChange = (e) => {
-        const { name, value } = e.target;
-        setInputs(prev => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <div>
-                    <input type="text" name="username" onChange={onChange} />
-                    {errors.username && <Alert type="error" message={errors.username}/>}
-                </div>
-                <div>
-                    <input type="password" name="password" onChange={onChange} />
-                    {errors.password && <Alert type="error" message={errors.password}/>}
-                </div>
-                <input type="submit" value="signup" disabled={loading || formDisabled}/>
-            </form>
-        </div>
+        <Form
+            {...layout}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+        >
+
+            <Form.Item
+                label="Username"
+                name="username"
+                rules={[
+                    { required: true, message: 'Please input your username!' },
+                    { min: 5, message: "Please input more than 5 letters!" },
+                ]}
+                hasFeedback{...fieldErrors.username}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                    { required: true, message: 'Please input your password!' },
+                ]}
+                hasFeedback{...fieldErrors.password}
+            >
+                <Input.Password />
+            </Form.Item>
+
+            <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+            </Form.Item>
+
+        </Form>
     );
 }
 
