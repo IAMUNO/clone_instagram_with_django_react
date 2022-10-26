@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
+import { useAppContext } from "store";
+import { setToken } from "store";
 import Axios from "axios";
 import useLocalStorage from "utils/useLocalStorage";
 
 export default function Login() {
     let navigate = useNavigate();
-    const [jwtToken, setJwtToken] = useLocalStorage("jwtToken", "");
+    const { dispatch } = useAppContext();
+//    const [jwtToken, setJwtToken] = useLocalStorage("jwtToken", "");
     const [fieldErrors, setFieldErrors] = useState({});
 
     const layout = {
@@ -34,7 +37,8 @@ export default function Login() {
 
                 console.log("accessToken: ", accessToken );
 
-                setJwtToken(accessToken);
+                dispatch(setToken(accessToken));
+//                setJwtToken(accessToken);
 
                 notification.open({
                     message : "Login successfully",

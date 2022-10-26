@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useAppContext } from "store";
 import Axios from "axios";
 import Post from './Post';
+
 
 
 const apiUrl = "http://127.0.0.1:8000/api/posts/";
 
 function PostList() {
+    const { store: { jwtToken }, dispatch } = useAppContext();
+
     const [postList, setPostList] = useState([]);
 
     useEffect(() => {
@@ -20,7 +24,6 @@ function PostList() {
             .catch(error => {
                 // error.response;
             });
-        console.log("mounted");
     }, []);
 
     return (
