@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { useAppContext } from "store";
@@ -8,10 +8,14 @@ import Axios from "axios";
 import useLocalStorage from "utils/useLocalStorage";
 
 export default function Login() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
     const { dispatch } = useAppContext();
-//    const [jwtToken, setJwtToken] = useLocalStorage("jwtToken", "");
     const [fieldErrors, setFieldErrors] = useState({});
+
+    const { from: loginRedirectUrl } = location.state || {
+        from : { pathname: "/" }
+    };
 
     const layout = {
         labelCol: { span: 8 },
@@ -46,7 +50,8 @@ export default function Login() {
                     icon: <SmileOutlined style={{ color: "#108ee9" }} />,
                 });
 
-//                navigate("/accounts/login"); TODO: 이동주소
+                navigate(loginRedirectUrl);
+
             }
             catch(error) {
                 if ( error.response ) {
