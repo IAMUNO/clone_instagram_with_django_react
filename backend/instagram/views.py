@@ -5,9 +5,11 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Post
 from .serializers import PostSerializer
 
+
 class PostViewSet(ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().select_related('author').prefetch_related("tag_set", "like_user_set")
     serializer_class = PostSerializer
+
     # permissions_class = [AllowAny]  # FIXME:인증적용
 
     def get_queryset(self):

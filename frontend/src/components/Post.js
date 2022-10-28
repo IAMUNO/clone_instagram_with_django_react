@@ -4,18 +4,31 @@ import { HeartOutlined, UserOutlined } from '@ant-design/icons';
 
 
 function Post({ post }) {
-    const { caption, location, photo} = post;
+    const { author, caption, location, photo, tag_set, like_user_set } = post;
+    const { username, name, avatar_url } = author;
     return (
         <div>
             <Card
                 hoverable
                 cover={ <img src={photo} alt={caption} /> }
+                // FIXME: host 지정을 로직으로
                 actions={[ <HeartOutlined /> ]}
             >
                 <Card.Meta
-                    avatar={<Avatar size="large" icon={<UserOutlined />} />}
+                    avatar={
+                        <Avatar
+                            size="large"
+                            icon={
+                                <img
+                                  src={`http://127.0.0.1:8000` + avatar_url}
+                                  alt={username}
+                                />
+                            }
+                        />
+                    }
                     title={location}
-                    description={caption} />
+                    description={caption}
+                />
             </Card>
         </div>
     );

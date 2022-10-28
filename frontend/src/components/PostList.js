@@ -1,39 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAppContext } from "store";
 import { Alert } from "antd";
-import Axios from "axios";
+import useAxios from 'axios-hooks'
 import Post from './Post';
 
 
-const apiUrl = "http://127.0.0.1:8000/api/posts/";
-
 
 function PostList() {
-    const { store: { jwtToken }, dispatch } = useAppContext();
+    const { store: { jwtToken } } = useAppContext();
 
-    const [postList, setPostList] = useState([]);
+    const headers = { Authorization: `Bearer ${jwtToken}` };
+    const [{data: postList, loading, error}, refetch] = useAxios({
+        url: "http://127.0.0.1:8000/api/posts/",
+        headers,
+    });
 
-    useEffect(() => {
-        const headers = { Authorization: `Bearer ${jwtToken}`  };
 
-        Axios.get(apiUrl, { headers })
-
-            .then(response => {
-                const { data } = response;
-                setPostList(data);
-                console.log("loaded response : ", response);
-            })
-
-            .catch(error => {
-                // error.response;
-            });
-    }, []);
 
     return (
         <div>
-            {postList.length === 0 &&
+            {postList && postList.length === 0 &&
                 <Alert type="warning" message="There are no postings!" />}
-            {postList.map(post => {
+            {postList && postList.map(post => {
                 return <Post post={post} key={post.id}/>
             })}
         </div>
