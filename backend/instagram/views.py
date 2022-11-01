@@ -5,16 +5,17 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post, Comment
+from .serializers import PostSerializer, CommentSerializer
 
 
 class PostViewSet(ModelViewSet):
-    queryset = Post.objects.all().\
-        order_by('-updated_at').\
-        select_related('author').\
+    queryset = Post.objects.all(). \
+        order_by('-updated_at'). \
+        select_related('author'). \
         prefetch_related("tag_set", "like_user_set")
     serializer_class = PostSerializer
+
     # permissions_class = [AllowAny]  # FIXME:인증적용
 
     def get_serializer_context(self):
@@ -50,5 +51,15 @@ class PostViewSet(ModelViewSet):
         return Response(status.HTTP_204_NO_CONTENT)
 
 
+class CommentViewSet(ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(post__pk=self.kwargs['post_pk'])
+        return qs
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+        return super().perform_create(serializer)
