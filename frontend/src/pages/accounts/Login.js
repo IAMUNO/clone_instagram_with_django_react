@@ -4,6 +4,7 @@ import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { useAppContext } from "store";
 import { setToken } from "store";
+import { parseErrorMessages } from "utils/forms";
 import Axios from "axios";
 import useLocalStorage from "utils/useLocalStorage";
 
@@ -55,7 +56,6 @@ export default function Login() {
             }
             catch(error) {
                 if ( error.response ) {
-
                     notification.open({
                         message : "Login failed",
                         description : "Check your ID/Password and try again",
@@ -63,17 +63,8 @@ export default function Login() {
                     });
 
                     const { data: fieldsErrorMessages } = error.response;
-                    setFieldErrors(
-                        Object.entries(fieldsErrorMessages).reduce(
-                            (acc, [fieldName, errors] ) => {
-                                acc[fieldName] = {
-                                    validateStatus: "error",
-                                    help: errors.join(" "),
-                                };
-                                return acc;
-                            }, {}
-                        )
-                    );
+
+                    setFieldErrors(parseErrorMessages(fieldsErrorMessages));
                 }
             }
         }
