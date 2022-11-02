@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.db.models import Q
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Post, Comment
@@ -61,5 +62,6 @@ class CommentViewSet(ModelViewSet):
         return qs
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
+        serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
