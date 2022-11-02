@@ -1,8 +1,9 @@
 import React from 'react';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Comment, Tooltip } from 'antd';
 import { HeartTwoTone, HeartOutlined, UserOutlined } from '@ant-design/icons';
 import { useAppContext } from "store";
 import Axios from 'axios';
+import moment from "moment";
 import useAxios from 'axios-hooks';
 
 
@@ -56,7 +57,25 @@ function Post({ post, handleLike }) {
                 />
 
                 <h2>Comment List</h2>
-                {JSON.stringify(commentList)}
+
+                <Comment
+                    author={"Yunho Yoo"}
+                    avatar={
+                        <Avatar
+                            src="https://joeschmoe.io/api/v1/random"
+                            alt="Han Solo"
+                        />
+                    }
+                    content={
+                        <p>comment content</p>
+                    }
+                    datetime={
+                        <Tooltip title="2016-11-22 11:22:33">
+                            <span>8 hours ago</span>
+                        </Tooltip>
+                    }
+                />
+
             </Card>
         </div>
     );
