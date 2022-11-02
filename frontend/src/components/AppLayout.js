@@ -35,7 +35,7 @@ function AppLayout({ children, sidebar }) {
         </div>
     </div>
 
-    );
+    )
 
 }
 

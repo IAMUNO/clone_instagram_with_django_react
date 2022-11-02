@@ -28,7 +28,7 @@ function Home() {
 
     return (
         <AppLayout sidebar={sidebar}>
-            <PostList />;
+            <PostList />
         </AppLayout>
     );
 }

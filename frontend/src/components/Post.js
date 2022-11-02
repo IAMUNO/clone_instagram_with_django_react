@@ -1,11 +1,26 @@
 import React from 'react';
 import { Avatar, Card } from 'antd';
 import { HeartTwoTone, HeartOutlined, UserOutlined } from '@ant-design/icons';
+import { useAppContext } from "store";
+import Axios from 'axios';
+import useAxios from 'axios-hooks';
+
 
 
 function Post({ post, handleLike }) {
+    const { store: { jwtToken } } = useAppContext();
+    const headers = { Authorization: `Bearer ${jwtToken}` };
+
+    const [{data: commentList, loading, error}, refetch] = useAxios({
+        url: `http://127.0.0.1:8000/api/posts/${post.id}/comments/`,
+        headers
+    });
+
     const { author, caption, location, photo, tag_set, is_like } = post;
     const { username, name, avatar_url } = author;
+
+
+
     return (
         <div className="post">
             <Card
@@ -39,6 +54,9 @@ function Post({ post, handleLike }) {
                     title={location}
                     description={caption}
                 />
+
+                <h2>Comment List</h2>
+                {JSON.stringify(commentList)}
             </Card>
         </div>
     );

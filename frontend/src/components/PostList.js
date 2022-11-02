@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "store";
 import { Alert } from "antd";
 import Axios from "axios";
-import useAxios from 'axios-hooks'
+import useAxios from 'axios-hooks';
 import Post from './Post';
 
 
@@ -37,7 +37,7 @@ function PostList() {
 
             setPostList(prevList => {
                 return prevList.map(currentPost =>
-                    currentPost === post ? {...currentPost, is_like:is_like} : currentPost );
+                    currentPost === post ? {...currentPost, is_like:is_like} : currentPost )
             });
         }
         catch(error) {
