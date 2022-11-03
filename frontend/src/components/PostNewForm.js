@@ -50,6 +50,7 @@ export default function PostNewForm() {
             console.log("success response : ", response);
             navigate('/');
 
+
         }
         catch(error) {
             if ( error.response ) {
