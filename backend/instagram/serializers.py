@@ -17,8 +17,6 @@ class AuthorSerializer(serializers.ModelSerializer):
             host = self.context['request'].get_host()
             return scheme + "://" + host + author.avatar_url
 
-
-
     class Meta:
         model = get_user_model()
         fields = ["username", "name", "avatar_url"]
