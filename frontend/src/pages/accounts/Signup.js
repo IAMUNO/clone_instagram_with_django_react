@@ -68,7 +68,7 @@ export default function Signup() {
 
 
     return (
-        <Card title="Signup">
+        <Card title="Signup" style={{ width: "768px" ,margin: "20px auto" }}>
             <Form
                 {...layout}
                 onFinish={onFinish}

@@ -77,7 +77,7 @@ export default function Login() {
 
 
     return (
-        <Card title="login">
+        <Card title="login" style={{ width: "768px" ,margin: "20px auto" }}>
             <Form
                 {...layout}
                 onFinish={onFinish}
