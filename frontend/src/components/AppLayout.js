@@ -17,9 +17,7 @@ function AppLayout({ children, sidebar }) {
 
             <div className="topnav">
                 <Menu mode="horizontal">
-                    <Menu.Item>Menu1</Menu.Item>
-                    <Menu.Item>Menu2</Menu.Item>
-                    <Menu.Item>Menu3</Menu.Item>
+                    <Menu.Item>Log Out</Menu.Item>
                 </Menu>
             </div>
         </div>
