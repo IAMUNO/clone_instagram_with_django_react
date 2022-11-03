@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Upload, Modal, notification } from "antd";
 import { FrownOutlined, PlusOutlined } from '@ant-design/icons';
 import { getBase64FromFile } from "utils/base64";
-import {  useAppContext } from "store";
+import { useAppContext } from "store";
 import { parseErrorMessages } from "utils/forms";
-import Axios from "axios";
-
+import { axiosInstance } from 'api';
 
 
 export default function PostNewForm() {
@@ -46,7 +45,7 @@ export default function PostNewForm() {
 
         const headers = { Authorization: `Bearer ${jwtToken}` };
         try {
-            const response = await Axios.post("http://127.0.0.1:8000/api/posts/", formData, { headers });
+            const response = await axiosInstance.post("/api/posts/", formData, { headers });
             console.log("success response : ", response);
             navigate('/');
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { axiosInstance } from 'api';
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Card } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
-import Axios from "axios";
 
 export default function Signup() {
     let navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function Signup() {
             const data = { username, password };
 
             try {
-                await Axios.post("http://localhost:8000/accounts/signup/", data);
+                await axiosInstance.post("/accounts/signup/", data);
 
                 notification.open({
                     message : "Signup successfully",
@@ -68,43 +68,44 @@ export default function Signup() {
 
 
     return (
-        <Form
-            {...layout}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-        >
-
-            <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                    { required: true, message: 'Please input your username!' },
-                    { min: 5, message: "Please input more than 5 letters!" },
-                ]}
-                hasFeedback{...fieldErrors.username}
+        <Card title="Signup">
+            <Form
+                {...layout}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
             >
-                <Input />
-            </Form.Item>
 
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                    { required: true, message: 'Please input your password!' },
-                ]}
-                hasFeedback{...fieldErrors.password}
-            >
-                <Input.Password />
-            </Form.Item>
+                <Form.Item
+                    label="Username"
+                    name="username"
+                    rules={[
+                        { required: true, message: 'Please input your username!' },
+                        { min: 5, message: "Please input more than 5 letters!" },
+                    ]}
+                    hasFeedback{...fieldErrors.username}
+                >
+                    <Input />
+                </Form.Item>
 
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
-            </Form.Item>
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                        { required: true, message: 'Please input your password!' },
+                    ]}
+                    hasFeedback{...fieldErrors.password}
+                >
+                    <Input.Password />
+                </Form.Item>
 
-        </Form>
+                <Form.Item {...tailLayout}>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
+        </Card>
     );
 }
 

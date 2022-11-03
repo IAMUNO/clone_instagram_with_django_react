@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import useLocalStorage from "utils/useLocalStorage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { useAppContext } from "store";
 import { setToken } from "store";
 import { parseErrorMessages } from "utils/forms";
-import Axios from "axios";
-import useLocalStorage from "utils/useLocalStorage";
+import { axiosInstance } from 'api';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Login() {
             const data = { username, password };
 
             try {
-                const response = await Axios.post("http://127.0.0.1:8000/accounts/token/", data);
+                const response = await axiosInstance.post("/accounts/token/", data);
 
                 const { data: { access: accessToken } } = response;
 

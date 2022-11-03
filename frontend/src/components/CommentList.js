@@ -1,11 +1,8 @@
 import React, { useState } from "react";
+import Comment from "./Comment";
 import { useAppContext } from "store";
 import { Button, Input } from 'antd';
-import moment from "moment";
-import Axios from 'axios';
-import useAxios from 'axios-hooks';
-import Comment from "./Comment";
-
+import { axiosInstance, useAxios } from 'api';
 
 export default function CommentList({ post }) {
     const { store: { jwtToken } } = useAppContext();
@@ -15,16 +12,16 @@ export default function CommentList({ post }) {
     const headers = { Authorization: `Bearer ${jwtToken}` };
 
     const [{data: commentList, loading, error}, refetch] = useAxios({
-        url: `http://127.0.0.1:8000/api/posts/${post.id}/comments/`,
+        url: `/api/posts/${post.id}/comments/`,
         headers
     });
 
     const handleCommentSave = async () => {
-        const apiUrl = `http://127.0.0.1:8000/api/posts/${post.id}/comments/`
+        const apiUrl = `/api/posts/${post.id}/comments/`
 
 
         try {
-            const response = await Axios.post(
+            const response = await axiosInstance.post(
                 apiUrl,
                 { message: commentContent },
                 { headers }

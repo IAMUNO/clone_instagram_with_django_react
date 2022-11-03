@@ -37,7 +37,7 @@ function Post({ post, handleLike }) {
                             size="large"
                             icon={
                                 <img
-                                  src={ `http://127.0.0.1:8000` + avatar_url }
+                                  src={ avatar_url }
                                   alt={username}
                                 />
                             }
@@ -47,8 +47,6 @@ function Post({ post, handleLike }) {
                     description={caption}
                     style={{ marginBottom: "1em" }}
                 />
-
-                <h2>Comment List</h2>
 
                 <CommentList post={post} />
 

@@ -16,7 +16,7 @@ export default function Comment({ comment }) {
             author={displayName}
             avatar={
                 <Avatar
-                    src={"http://127.0.0.1:8000" + avatar_url}
+                    src={ avatar_url }
                     alt={displayName}
                 />
             }
