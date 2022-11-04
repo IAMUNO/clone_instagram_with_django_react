@@ -74,8 +74,6 @@ export default function Login() {
         console.log('Failed:', errorInfo);
     };
 
-
-
     return (
         <Card title="login" style={{ width: "768px" ,margin: "20px auto" }}>
             <Form
@@ -94,8 +92,6 @@ export default function Login() {
                     ]}
                     hasFeedback
                     {...fieldErrors.username}
-
-
                 >
                     <Input />
                 </Form.Item>
@@ -108,7 +104,6 @@ export default function Login() {
                     ]}
                     hasFeedback
                     {...fieldErrors.password}
-
                 >
                     <Input.Password />
                 </Form.Item>
