@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState }from 'react';
 import { Avatar, Tooltip, Comment as AntdComment } from "antd";
 import moment from "moment";
+import SingleComment from "./SingleComment";
+
 
 export default function Comment({ comment }) {
     const {
@@ -11,24 +13,32 @@ export default function Comment({ comment }) {
 
     const displayName = name.length === 0 ? username : name;
 
+
     return (
-        <AntdComment
-            author={displayName}
-            avatar={
-                <Avatar
-                    src={ avatar_url }
-                    alt={displayName}
-                />
-            }
-            content={
-                <p>{message}</p>
-            }
-            datetime={
-                <Tooltip title={moment().format(created_at)}>
-                    <span>{moment(created_at).fromNow()}</span>
-                </Tooltip>
-            }
-        />
+            <AntdComment
+                actions={[
+                    <span
+                    key="comment-nested-reply-to"
+                    >
+                        Reply to
+                    </span>
+                ]}
+                author={displayName}
+                avatar={
+                    <Avatar
+                        src={ avatar_url }
+                        alt={displayName}
+                    />
+                }
+                content={
+                    <p>{message}</p>
+                }
+                datetime={
+                    <Tooltip title={moment().format(created_at)}>
+                        <span>{moment(created_at).fromNow()}</span>
+                    </Tooltip>
+                }
+            />
 
     );
 

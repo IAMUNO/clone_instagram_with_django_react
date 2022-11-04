@@ -4,6 +4,7 @@ import { useAppContext } from "store";
 import { Button, Input } from 'antd';
 import { axiosInstance, useAxios } from 'api';
 
+
 export default function CommentList({ post }) {
     const { store: { jwtToken } } = useAppContext();
 
@@ -39,7 +40,6 @@ export default function CommentList({ post }) {
             {commentList && commentList.map(comment => (
                 <Comment key={comment.id} comment={comment} />
             ))}
-
 
             <Input.TextArea
                 style={{ marginBottom: ".5em" }}
