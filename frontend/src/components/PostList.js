@@ -21,7 +21,11 @@ function PostList() {
         setPostList(originPostList);
     }, [originPostList]);
 
-    const handleLike = async ({  post, is_like }) => {
+    useEffect(() => {
+        refetch();
+    }, []);
+
+    const handleLike = async ({ post, is_like }) => {
         const apiUrl = `/api/posts/${post.id}/like/`;
         const method = is_like ? 'POST' : 'DELETE';
 
