@@ -3,8 +3,7 @@ import useLocalStorage from "utils/useLocalStorage";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
-import { useAppContext } from "store";
-import { setToken } from "store";
+import { useAppContext, setToken } from "store";
 import { parseErrorMessages } from "utils/forms";
 import { axiosInstance } from 'api';
 

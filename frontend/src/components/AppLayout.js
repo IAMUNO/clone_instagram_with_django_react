@@ -1,10 +1,30 @@
-import React from 'react';
-import { Input, Menu } from "antd";
-import "./AppLayout.scss"
+import React, { useEffect }from 'react';
 import LogoImage from "assets/logo.png";
+import { Input, Menu, notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+import { axiosInstance, useAxios } from 'api';
+import { useAppContext, deleteToken } from "store";
+import { useNavigate } from "react-router-dom";
+import "./AppLayout.scss"
 
 
 function AppLayout({ children, sidebar }) {
+    const navigate = useNavigate();
+    const { dispatch } = useAppContext();
+    const { store: { jwtToken } } = useAppContext();
+
+    const handleLogout = ()  => {
+        dispatch(deleteToken(jwtToken));
+        navigate('/accounts/logout');
+
+        notification.open({
+            message : "Logout successfully",
+            description : "See you again",
+            icon: <SmileOutlined style={{ color: "#722ed1" }} />,
+        });
+
+    };
+
     return (
     <div className="app">
 
@@ -17,7 +37,7 @@ function AppLayout({ children, sidebar }) {
 
             <div className="topnav">
                 <Menu mode="horizontal">
-                    <Menu.Item>Log Out</Menu.Item>
+                    <Menu.Item onClick={handleLogout}>Log Out</Menu.Item>
                 </Menu>
             </div>
         </div>
