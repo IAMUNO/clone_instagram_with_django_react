@@ -5,6 +5,7 @@ import { axiosInstance, useAxios } from 'api';
 import { useAppContext } from "store";
 
 
+
 function PostList() {
     const { store: { jwtToken } } = useAppContext();
 
@@ -16,6 +17,7 @@ function PostList() {
         url: "/api/posts/",
         headers
     });
+
 
     useEffect(() => {
         setPostList(originPostList);
@@ -54,8 +56,13 @@ function PostList() {
             {postList && postList.length === 0 &&
                 <Alert type="warning" message="There are no postings!" /> }
             {postList && postList.map(post => {
-                return <Post post={post} key={post.id} handleLike={handleLike} />
+                return <Post
+                    post={post}
+                    key={post.id}
+                    handleLike={handleLike}
+                     />
             })}
+
         </div>
     );
 }
