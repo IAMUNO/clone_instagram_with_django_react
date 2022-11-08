@@ -44,7 +44,7 @@ export default function SuggestionList({ style }) {
             {loading && <div>Loading...</div>}
             {error && <div>Error Occurred!!!</div>}
 
-            <Button onClick={() => refetch()}>Reload</Button>
+            <Button style={{ marginBottom: "1em"  }} onClick={() => refetch()}>Reload</Button>
 
             <Card title="Suggestions for you" size="small">
                 {userList.map(suggestionUser =>
